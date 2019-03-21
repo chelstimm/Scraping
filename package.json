@@ -1,0 +1,24 @@
+{
+  "name": "homework18",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chelstimm/Scraping.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chelstimm/Scraping/issues"
+  },
+  "homepage": "https://github.com/chelstimm/Scraping#readme",
+  "dependencies": {
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1"
+  }
+}
