@@ -11,25 +11,25 @@ var ArticleSchema = new Schema({
     type: String,
     trim: true,
     unique: true,
-    required: true
+    // required: true
   },
   // 'summary' - short summary of article
   summary: {
     type: String,
     trim: true,
-    required: true
+    // required: true
   },
   // `link` is required and of type String
   link: {
     type: String,
-    required: true
+    // required: true
   },
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model
   // This allows us to populate the Article with an associated Note
-  note: {
+  comments: {
     type: Schema.Types.ObjectId,
-    ref: "Note"
+    ref: "Comment"
   }
 });
 
@@ -38,3 +38,4 @@ var Article = mongoose.model("Article", ArticleSchema);
 
 // Export the Article model
 module.exports = Article;
+
