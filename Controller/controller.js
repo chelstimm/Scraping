@@ -82,7 +82,7 @@ module.exports = function (app) {
         _id: req.params.id
       })
       // ..and populate all of the notes associated with it
-      .populate("note")
+      .populate("comments")
       .then(function (dbArticle) {
         // If we were able to successfully find an Article with the given id, send it back to the client
         res.json(dbArticle);
@@ -102,7 +102,7 @@ module.exports = function (app) {
         return db.Article.findOneAndUpdate({
           _id: req.params.id
         }, {
-          comment: dbComment._id
+          $push: { comments: dbComment._id }
         }, {
           new: true
         });

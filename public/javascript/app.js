@@ -8,37 +8,47 @@
 // });
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".collapsible-header", function(event) {
+  event.preventDefault();
   // Empty the notes from the note section
-  $("#comments").empty();
+  var viewComment = $(this).parent().find(".collection");
+  viewComment.empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
 
   // Now make an ajax call for the Article
-  // $.ajax({
-  //   method: "GET",
-  //   url: "/articles/" + thisId
-  // })
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + thisId
+  })
     // With that done, add the note information to the page
-    // .then(function(data) {
-    //   console.log(data);
-    //   // The title of the article
-    //   $("#comments").append("<h2>" + data.title + "</h2>");
-    //   // An input to enter a new title
-    //   $("#comments").append("<input id='titleinput' name='title' >");
-    //   // A textarea to add a new note body
-    //   $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
-    //   // A button to submit a new note, with the id of the article saved to it
-    //   $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+    .then(function(data) {
+      console.log(data.comments);
+      for(var i = 0; i < data.comments.length; i++) {
+       var li = $('<li class="collection-item"><b>' + data.comments[i].author + '</b><span class="badge">' +
+       '<form class="delete-form" action="./" method="post">' +
+      '<input class="btn-small delete-comment-button" data-id="' + data.comments[i]._id + '" type="submit" value="Delete" style="color: white; background-color: red; border-color: red">' +
+       '</form></span><br>' + data.comments[i].content + '</li>');
+      
+       viewComment.append(li);
+      }
+      // The title of the article
+      // viewComment.append("<h2>" + data.title + "</h2>");
+      // // An input to enter a new title
+      // viewComment.append("<input id='titleinput' name='title' >");
+      // // A textarea to add a new note body
+      // viewComment.append("<textarea id='bodyinput' name='body'></textarea>");
+      // // A button to submit a new note, with the id of the article saved to it
+      // viewComment.append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
 
-    //   // If there's a note in the article
-    //   if (data.comment) {
-    //     // Place the title of the note in the title input
-    //     $("#author_name").val(data.comment.title);
-    //     // Place the body of the comment in the body textarea
-    //     $("#comment_box").val(data.comment.body);
-    //   }
-    // });
+      // If there's a note in the article
+      if (data.comment) {
+        // Place the title of the note in the title input
+        $("#author_name").val(data.comment.title);
+        // Place the body of the comment in the body textarea
+        $("#comment_box").val(data.comment.body);
+      }
+    });
 });
 
 // When you click the savecomment button
@@ -64,7 +74,7 @@ console.log("yo");
       // Log the response
       console.log(data);
       // Empty the comments section
-      $("#comments").empty();
+      viewComment.empty();
     });
 
   // Also, remove the values entered in the input and textarea for comment entry
@@ -72,4 +82,7 @@ console.log("yo");
   $("#comment_box").val("");
 });
 
-
+$(document).on("submit", ".delete-form", function(event) {
+  event.preventDefault();
+  console.log("todo delete");
+});
