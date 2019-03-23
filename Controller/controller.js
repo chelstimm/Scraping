@@ -95,13 +95,14 @@ module.exports = function (app) {
 
   // Route for saving/updating an Article's associated Note
   app.post("/articles/:id", function (req, res) {
+    console.log(req.body);
     // Create a new note and pass the req.body to the entry
-    db.Note.create(req.body)
-      .then(function (dbNote) {
+    db.Comment.create(req.body)
+      .then(function (dbComment) {
         return db.Article.findOneAndUpdate({
           _id: req.params.id
         }, {
-          note: dbNote._id
+          comment: dbComment._id
         }, {
           new: true
         });
@@ -114,5 +115,17 @@ module.exports = function (app) {
         // If an error occurred, send it to the client
         res.json(err);
       });
+
+      app.delete("/deleteComment/:id", function (req, res) {
+        db.Comment.deleteOne({
+            _id: req.params.id
+        })
+            .then(function (dbComment) {
+                res.json(dbComment);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    });
   });
 }
