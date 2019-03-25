@@ -1,6 +1,9 @@
 var mongoose = require("mongoose");
 var axios = require("axios");
 var cheerio = require("cheerio");
+var express = require("express");
+
+var router = express.Router();
 
 // Connect to the Mongo DB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
@@ -11,9 +14,15 @@ mongoose.connect(MONGODB_URI, {
 
 var db = require("../models");
 
-module.exports = function (app) {
+// module.exports = function (app) {
+    // Route for getting all Articles from the db
+    // app.get("/", function (req, res) {
+    //   // Grab every document in the Articles collection
+    //     res.redirect("/scrape");
+    //   });
+
   // A GET route for scraping the ksl website
-  app.get("/scrape", function (req, res) {
+  router.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
     axios.get("https://www.theonion.com/").then(function (response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -42,6 +51,8 @@ module.exports = function (app) {
 
         console.log(result);
 
+        
+
         // Create a new Article using the `result` object built from scraping
           db.Article.create(result)
             .then(function(dbArticle) {
@@ -56,15 +67,18 @@ module.exports = function (app) {
 
       // Send a message to the client
       res.send("Scrape Complete");
+      // res.redirect("/articles");
     });
   });
 
   // Route for getting all Articles from the db
-  app.get("/articles", function (req, res) {
+  router.get("/", function (req, res) {
     // Grab every document in the Articles collection
+    console.log("dbArticle")
     db.Article.find({})
       .then(function (dbArticle) {
         // If we were able to successfully find Articles, send them back to the client
+        console.log(dbArticle)
         res.render('index', {
           articles: dbArticle
         })
@@ -76,7 +90,7 @@ module.exports = function (app) {
   });
 
   // Route for grabbing a specific Article by id, populate it with it's note
-  app.get("/articles/:id", function (req, res) {
+  router.get("/articles/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Article.findOne({
         _id: req.params.id
@@ -94,7 +108,7 @@ module.exports = function (app) {
   });
 
   // Route for saving/updating an Article's associated Note
-  app.post("/articles/:id", function (req, res) {
+  router.post("/articles/:id", function (req, res) {
     console.log(req.body);
     // Create a new note and pass the req.body to the entry
     db.Comment.create(req.body)
@@ -116,16 +130,18 @@ module.exports = function (app) {
         res.json(err);
       });
 
-      app.delete("/deleteComment/:id", function (req, res) {
+      router.delete("/deleteComment/:id", function (req, res) {
+        console.log(req.params.id);
         db.Comment.deleteOne({
             _id: req.params.id
         })
             .then(function (dbComment) {
                 res.json(dbComment);
+                console.log("delete complete");
             })
             .catch(function (err) {
                 console.log(err);
             });
     });
   });
-}
+module.exports = router;

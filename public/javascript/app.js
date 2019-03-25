@@ -84,5 +84,16 @@ console.log("yo");
 
 $(document).on("submit", ".delete-form", function(event) {
   event.preventDefault();
-  console.log("todo delete");
+  var commentId = $(this).find(".delete-comment-button").attr("data-id");
+  console.log("todo delete", commentId);
+
+  //ajax call with delete method call the route (/deleteComment/:id")
+  $.ajax({
+    method: "DELETE",
+    url: "/deleteComment/:id" + commentId,
+  }).then(function(){
+    // $(".viewComment").removeAttr("data-id");
+    viewComment.removeAttr("data-id");
+    console.log("comment deleted");
+});
 });

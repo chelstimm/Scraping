@@ -62,7 +62,7 @@
 
     <!-- View Comments Drop Down -->
     <li class="view-comments">
-      <div class="collapsible-header" data-id="{{_id}}"><i class="material-icons">thumbs_up_down</i>View Comments</div>
+      <div class="collapsible-header" data-id="{{_id}}"><i class="material-icons">bookmark</i>View Comments</div>
       <div class="collapsible-body" style="background-color: white;">
       
         {{!-- Check if the article has comments --}}
@@ -80,7 +80,7 @@
                 {{!-- Add a Delete Button --}}
                 <span class="badge">
                   <form id="form-delete-{{_id}}" action="remove/comment/{{_id}}" method="post">
-                    <input class="btn-small delete-comment-button" data-id="{{_id}}" type="submit" value="Delete" style="color: white; background-color: red; border-color: red;">
+                    <input class="btn-small delete-comment-button" data-id="{{_id}}" type="submit" value="Delete" style="color: white; background-color: red; border-color: gray;">
                   </form>
                 </span>
 
@@ -95,7 +95,7 @@
         
         {{!-- No comments, so display message --}}
         {{else}}
-          <p>No Comments Yet :( </p>
+          <p>No Comments</p>
         {{/if}}
             
         
