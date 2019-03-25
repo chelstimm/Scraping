@@ -23,10 +23,12 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
+    "handlebars": "^4.1.1",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.4.20",
     "morgan": "^1.9.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "require": "^2.4.20"
   }
 }
