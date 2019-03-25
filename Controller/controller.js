@@ -14,13 +14,6 @@ mongoose.connect(MONGODB_URI, {
 
 var db = require("../models");
 
-// module.exports = function (app) {
-    // Route for getting all Articles from the db
-    // app.get("/", function (req, res) {
-    //   // Grab every document in the Articles collection
-    //     res.redirect("/scrape");
-    //   });
-
   // A GET route for scraping the ksl website
   router.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
@@ -51,8 +44,6 @@ var db = require("../models");
 
         console.log(result);
 
-        
-
         // Create a new Article using the `result` object built from scraping
           db.Article.create(result)
             .then(function(dbArticle) {
@@ -67,8 +58,10 @@ var db = require("../models");
 
       // Send a message to the client
       res.send("Scrape Complete");
+      // res.redirect("/");
       // res.redirect("/articles");
     });
+    
   });
 
   // Route for getting all Articles from the db
@@ -85,8 +78,8 @@ var db = require("../models");
       })
       .catch(function (err) {
         // If an error occurred, send it to the client
-        res.json(err);
       });
+      
   });
 
   // Route for grabbing a specific Article by id, populate it with it's note
