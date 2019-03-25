@@ -27,7 +27,7 @@ $(document).on("click", ".collapsible-header", function(event) {
       for(var i = 0; i < data.comments.length; i++) {
        var li = $('<li class="collection-item"><b>' + data.comments[i].author + '</b><span class="badge">' +
        '<form class="delete-form" action="./" method="post">' +
-      '<input class="btn-small delete-comment-button" data-id="' + data.comments[i]._id + '" type="submit" value="Delete" style="color: white; background-color: red; border-color: red">' +
+      '<input class="btn-small delete-comment-button" data-id="' + data.comments[i]._id + '" type="submit" value="Delete" style="color: white; background-color: gray; border-color: gray">' +
        '</form></span><br>' + data.comments[i].content + '</li>');
       
        viewComment.append(li);
