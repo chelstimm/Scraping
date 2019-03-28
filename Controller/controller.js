@@ -122,7 +122,8 @@ var db = require("../models");
         // If an error occurred, send it to the client
         res.json(err);
       });
-
+    });
+    
       router.delete("/deleteComment/:id", function (req, res) {
         console.log(req.params.id);
         db.Comment.deleteOne({
@@ -136,5 +137,5 @@ var db = require("../models");
                 console.log(err);
             });
     });
-  });
+
 module.exports = router;
